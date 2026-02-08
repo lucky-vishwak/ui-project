@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A romantic love proposal page">
+    <title>💕 For Manu 💕</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Main Question Page -->
+    <div class="page" id="questionPage">
+        <div class="card">
+            <div class="card-glow"></div>
+            <div class="heart-icon">💖</div>
+            <h1 class="title">I Love You</h1>
+            <p class="subtitle">Will you love me?</p>
+            <div class="button-area" id="buttonArea">
+                <div class="button-container">
+                    <button class="btn btn-yes" id="yesBtn">
+                        <span class="btn-text">Yes 💕</span>
+                        <span class="btn-shine"></span>
+                    </button>
+                    <button class="btn btn-no" id="noBtn">
+                        <span class="btn-text">No 💔</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Page -->
+    <div class="page hidden" id="successPage">
+        <div class="success-content">
+            <div class="confetti-container" id="confettiContainer"></div>
+            <div class="success-card">
+                <div class="gif-container">
+                    <img src="assets/images/propal_day.gif" alt="Proposal Day" class="proposal-gif" id="proposalGif">
+                    <div class="gif-placeholder" id="gifPlaceholder">
+                        <span class="placeholder-heart">💍</span>
+                        <span class="placeholder-text">Proposal Day</span>
+                    </div>
+                </div>
+                <h1 class="success-title">I Knew You Love Me! 💖</h1>
+                <p class="success-subtitle">Together forever... 💑</p>
+                <div class="floating-hearts">
+                    <span>💕</span>
+                    <span>💖</span>
+                    <span>💗</span>
+                    <span>💓</span>
+                    <span>💘</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const questionPage = document.getElementById('questionPage');
+        const successPage = document.getElementById('successPage');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const heartsContainer = document.getElementById('heartsContainer');
+        const confettiContainer = document.getElementById('confettiContainer');
+        const proposalGif = document.getElementById('proposalGif');
+        const gifPlaceholder = document.getElementById('gifPlaceholder');
+
+        // Create floating hearts background
+        function createFloatingHearts() {
+            const hearts = ['💕', '💖', '💗', '💓', '💘', '💝', '❤️', '💜', '💛'];
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heart.style.opacity = Math.random() * 0.5 + 0.3;
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6bdf', '#ffa500'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = (Math.random() * 2) + 's';
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        // No button escape logic
+        let escapeCount = 0;
+        let currentOffsetX = 0;
+        let currentOffsetY = 0;
+        const messages = [
+            "Can't catch me! 😜",
+            "Try again! 💨",
+            "Nope! 🏃",
+            "Too slow! 😏",
+            "Just say Yes! 💕",
+            "You can't avoid love! 💖"
+        ];
+
+        function moveNoButton(e) {
+            const btn = noBtn;
+            const buttonArea = document.getElementById('buttonArea');
+            const areaRect = buttonArea.getBoundingClientRect();
+            const rect = btn.getBoundingClientRect();
+            const btnCenterX = rect.left + rect.width / 2;
+            const btnCenterY = rect.top + rect.height / 2;
+
+            // Calculate distance from cursor to button center
+            const dx = e.clientX - btnCenterX;
+            const dy = e.clientY - btnCenterY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Only move if cursor is getting close (within 70px)
+            if (distance < 70) {
+                // Maximum offset the button can move within the button area
+                const maxOffsetX = 120;  // pixels left or right
+                const maxOffsetY = 80;   // pixels up or down
+
+                // Calculate direction to escape (opposite of cursor)
+                let escapeX = dx !== 0 ? -Math.sign(dx) : (Math.random() > 0.5 ? 1 : -1);
+                let escapeY = dy !== 0 ? -Math.sign(dy) : (Math.random() > 0.5 ? 1 : -1);
+
+                // Add randomness
+                escapeX += (Math.random() - 0.5) * 0.5;
+                escapeY += (Math.random() - 0.5) * 0.5;
+
+                // Calculate new offset
+                let newOffsetX = currentOffsetX + escapeX * (60 + Math.random() * 40);
+                let newOffsetY = currentOffsetY + escapeY * (40 + Math.random() * 30);
+
+                // Clamp within bounds
+                newOffsetX = Math.max(-maxOffsetX, Math.min(maxOffsetX, newOffsetX));
+                newOffsetY = Math.max(-maxOffsetY, Math.min(maxOffsetY, newOffsetY));
+
+                // If we're stuck at an edge, try the opposite direction
+                if (Math.abs(newOffsetX) >= maxOffsetX && Math.sign(newOffsetX) === Math.sign(currentOffsetX)) {
+                    newOffsetX = -newOffsetX * 0.8;
+                }
+                if (Math.abs(newOffsetY) >= maxOffsetY && Math.sign(newOffsetY) === Math.sign(currentOffsetY)) {
+                    newOffsetY = -newOffsetY * 0.8;
+                }
+
+                // Update current offsets
+                currentOffsetX = newOffsetX;
+                currentOffsetY = newOffsetY;
+
+                // Apply transform (keeps button in normal flow, just visually shifted)
+                btn.style.transform = `translate(${newOffsetX}px, ${newOffsetY}px)`;
+                btn.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+                // Add playful message occasionally
+                escapeCount++;
+                if (escapeCount % 3 === 0) {
+                    showMessage(messages[Math.floor(Math.random() * messages.length)]);
+                }
+            }
+        }
+
+        function showMessage(text) {
+            const msg = document.createElement('div');
+            msg.className = 'escape-message';
+            msg.textContent = text;
+            msg.style.left = Math.random() * 60 + 20 + '%';
+            msg.style.top = Math.random() * 60 + 20 + '%';
+            document.body.appendChild(msg);
+
+            setTimeout(() => msg.remove(), 1500);
+        }
+
+        // Yes button click handler
+        function handleYesClick() {
+            // Add celebration animation to button
+            yesBtn.classList.add('celebrating');
+
+            // Transition to success page
+            setTimeout(() => {
+                questionPage.classList.add('fade-out');
+
+                setTimeout(() => {
+                    questionPage.classList.add('hidden');
+                    successPage.classList.remove('hidden');
+                    successPage.classList.add('fade-in');
+                    createConfetti();
+                }, 500);
+            }, 500);
+        }
+
+        // Check if GIF exists, show placeholder if not
+        proposalGif.onerror = function () {
+            proposalGif.style.display = 'none';
+            gifPlaceholder.style.display = 'flex';
+        };
+
+        // Event listeners
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('mousemove', moveNoButton);
+        yesBtn.addEventListener('click', handleYesClick);
+
+        // Initialize
+        createFloatingHearts();
+    </script>
+</body>
+
+</html>
