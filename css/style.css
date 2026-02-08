@@ -649,3 +649,143 @@ body {
         font-size: 2rem;
     }
 }
+
+/* Story Button */
+.btn-story {
+    margin-top: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    color: var(--text-light);
+    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+    padding: 18px 40px;
+    font-size: 1.1rem;
+    animation: storyPulse 2s ease-in-out infinite;
+}
+
+.btn-story:hover {
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.6);
+}
+
+@keyframes storyPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
+    }
+}
+
+/* Video Modal */
+.video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-modal.hidden {
+    display: none;
+}
+
+.video-modal.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 30, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.video-container {
+    position: relative;
+    z-index: 10;
+    max-width: 90%;
+    max-height: 85vh;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(240, 147, 251, 0.2));
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 100px rgba(102, 126, 234, 0.3);
+    animation: videoSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes videoSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.story-video {
+    display: block;
+    max-width: 100%;
+    max-height: 75vh;
+    border-radius: 12px;
+    background: #000;
+}
+
+.video-close-btn {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 45px;
+    height: 45px;
+    background: var(--gradient-love);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 20px rgba(255, 71, 87, 0.5);
+    transition: all 0.3s ease;
+    z-index: 20;
+}
+
+.video-close-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 10px 30px rgba(255, 71, 87, 0.7);
+}
+
+/* Video Modal Responsive */
+@media (max-width: 768px) {
+    .video-container {
+        max-width: 95%;
+        padding: 10px;
+    }
+
+    .video-close-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
+        top: -10px;
+        right: -10px;
+    }
+
+    .btn-story {
+        padding: 15px 30px;
+        font-size: 1rem;
+    }
+}

@@ -58,7 +58,22 @@
                     <span>💓</span>
                     <span>💘</span>
                 </div>
+                <button class="btn btn-story" id="storyBtn">
+                    <span class="btn-text">🎬 Our Story Started With...</span>
+                </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="video-modal hidden" id="videoModal">
+        <div class="video-overlay" id="videoOverlay"></div>
+        <div class="video-container">
+            <button class="video-close-btn" id="videoCloseBtn">×</button>
+            <video class="story-video" id="storyVideo" controls>
+                <source src="assets/videos/Story.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
     </div>
 
@@ -214,6 +229,38 @@
         noBtn.addEventListener('mouseover', moveNoButton);
         noBtn.addEventListener('mousemove', moveNoButton);
         yesBtn.addEventListener('click', handleYesClick);
+
+        // Video Modal Elements
+        const storyBtn = document.getElementById('storyBtn');
+        const videoModal = document.getElementById('videoModal');
+        const videoOverlay = document.getElementById('videoOverlay');
+        const videoCloseBtn = document.getElementById('videoCloseBtn');
+        const storyVideo = document.getElementById('storyVideo');
+
+        // Open video modal
+        storyBtn.addEventListener('click', function () {
+            videoModal.classList.remove('hidden');
+            videoModal.classList.add('fade-in');
+            storyVideo.play();
+        });
+
+        // Close video modal
+        function closeVideoModal() {
+            storyVideo.pause();
+            storyVideo.currentTime = 0;
+            videoModal.classList.add('hidden');
+            videoModal.classList.remove('fade-in');
+        }
+
+        videoCloseBtn.addEventListener('click', closeVideoModal);
+        videoOverlay.addEventListener('click', closeVideoModal);
+
+        // Close on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !videoModal.classList.contains('hidden')) {
+                closeVideoModal();
+            }
+        });
 
         // Initialize
         createFloatingHearts();
